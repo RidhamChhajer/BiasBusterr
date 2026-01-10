@@ -1,0 +1,5 @@
+# User uploads directory
+# This folder stores temporary user-uploaded files
+# It should NOT be committed to version control
+
+# Keep this file to preserve the directory structure

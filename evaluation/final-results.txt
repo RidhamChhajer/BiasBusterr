@@ -1,0 +1,238 @@
+﻿======================================================================
+≡ƒº¬ BIAS BUSTER - PHASE 4 EVALUATION
+======================================================================
+
+Total test cases: 20
+
+
+[1/20] Testing: neutral-001 - Administrative
+Input: "Ticket #12345
+From: Mumbai
+To: Delhi
+Date: 2024-01-15
+Passen..."
+  Expected: Risk=low, Bias=false
+  Actual:   Risk=unknown Γ£ù, Biases=0 ()
+  Result:   TN Γ£à
+
+[2/20] Testing: neutral-002 - Demographics
+Input: "Dataset contains 1000 records. Gender distribution: 50% male..."
+  Expected: Risk=low, Bias=false
+  Actual:   Risk=unknown Γ£ù, Biases=0 ()
+  Result:   TN Γ£à
+
+[3/20] Testing: neutral-003 - Factual
+Input: "This hiring dataset includes columns for name, age, gender, ..."
+  Expected: Risk=low, Bias=false
+  Actual:   Risk=unknown Γ£ù, Biases=0 ()
+  Result:   TN Γ£à
+
+[4/20] Testing: neutral-004 - Names
+Input: "Employees: Sarah Johnson, Mohammed Ali, Priya Sharma, David ..."
+  Expected: Risk=low, Bias=false
+  Actual:   Risk=unknown Γ£ù, Biases=0 ()
+  Result:   TN Γ£à
+
+[5/20] Testing: neutral-005 - Invoice
+Input: "Invoice #INV-2024-001
+Customer: ABC Corp
+Amount: $1,500
+Date..."
+  Expected: Risk=low, Bias=false
+  Actual:   Risk=unknown Γ£ù, Biases=0 ()
+  Result:   TN Γ£à
+
+[6/20] Testing: explicit-001 - Gender
+Input: "Job posting: Senior Engineer position. No women allowed. Thi..."
+  Expected: Risk=high, Bias=true
+  Actual:   Risk=unknown Γ£ù, Biases=0 ()
+  Result:   FN Γ¥î
+
+[7/20] Testing: explicit-002 - Religion
+Input: "Housing policy: We do not rent to Muslims. Only Hindu and Ch..."
+  Expected: Risk=high, Bias=true
+  Actual:   Risk=unknown Γ£ù, Biases=0 ()
+  Result:   FN Γ¥î
+
+[8/20] Testing: explicit-003 - Caste
+Input: "Hiring requirement: Only upper caste candidates will be cons..."
+  Expected: Risk=high, Bias=true
+  Actual:   Risk=unknown Γ£ù, Biases=0 ()
+  Result:   FN Γ¥î
+
+[9/20] Testing: explicit-004 - Race
+Input: "Company policy: We prefer white candidates for customer-faci..."
+  Expected: Risk=high, Bias=true
+  Actual:   Risk=unknown Γ£ù, Biases=0 ()
+  Result:   FN Γ¥î
+
+[10/20] Testing: explicit-005 - Disability
+Input: "Job requirement: No disabled persons. Must be physically fit..."
+  Expected: Risk=high, Bias=true
+  Actual:   Risk=unknown Γ£ù, Biases=0 ()
+  Result:   FN Γ¥î
+
+[11/20] Testing: implicit-001 - Stereotyping
+Input: "Women are naturally better at nurturing roles like nursing a..."
+  Expected: Risk=medium, Bias=true
+  Actual:   Risk=unknown Γ£ù, Biases=0 ()
+  Result:   FN Γ¥î
+
+[12/20] Testing: implicit-002 - Coded Language
+Input: "We are looking for candidates who fit our culture. Must be a..."
+  Expected: Risk=medium, Bias=true
+  Actual:   Risk=unknown Γ£ù, Biases=0 ()
+  Result:   FN Γ¥î
+
+[13/20] Testing: implicit-003 - Socioeconomic
+Input: "Preference for candidates from elite universities. IIT/IIM g..."
+  Expected: Risk=medium, Bias=true
+  Actual:   Risk=unknown Γ£ù, Biases=0 ()
+  Result:   FN Γ¥î
+
+[14/20] Testing: implicit-004 - Age
+Input: "Looking for young, energetic candidates. Fresh graduates pre..."
+  Expected: Risk=medium, Bias=true
+  Actual:   Risk=unknown Γ£ù, Biases=0 ()
+  Result:   FN Γ¥î
+
+[15/20] Testing: implicit-005 - Language
+Input: "Must speak English with native accent. No regional accents a..."
+  Expected: Risk=medium, Bias=true
+  Actual:   Risk=unknown Γ£ù, Biases=0 ()
+  Result:   FN Γ¥î
+
+[16/20] Testing: edge-001 - Statistical
+Input: "Analysis shows 95% of hires are male despite 50% female appl..."
+  Expected: Risk=high, Bias=true
+  Actual:   Risk=unknown Γ£ù, Biases=0 ()
+  Result:   FN Γ¥î
+
+[17/20] Testing: edge-002 - Legitimate
+Input: "Customer service role requires fluent English communication ..."
+  Expected: Risk=low, Bias=false
+  Actual:   Risk=unknown Γ£ù, Biases=0 ()
+  Result:   TN Γ£à
+
+[18/20] Testing: edge-003 - Mixed
+Input: "Employee data: ID: 12345, Name: Sarah, Gender: F, Salary: $5..."
+  Expected: Risk=medium, Bias=true
+  Actual:   Risk=unknown Γ£ù, Biases=0 ()
+  Result:   FN Γ¥î
+
+[19/20] Testing: edge-004 - Academic
+Input: "Research study on gender pay gap in tech industry. Analyzing..."
+  Expected: Risk=low, Bias=false
+  Actual:   Risk=unknown Γ£ù, Biases=0 ()
+  Result:   TN Γ£à
+
+[20/20] Testing: edge-005 - Ambiguous
+Input: "Preference for candidates with strong communication skills a..."
+  Expected: Risk=low, Bias=false
+  Actual:   Risk=unknown Γ£ù, Biases=0 ()
+  Result:   TN Γ£à
+
+======================================================================
+≡ƒôè EVALUATION RESULTS
+======================================================================
+
+≡ƒôê Confusion Matrix:
+  True Positives (TP):  0 Γ£à
+  False Positives (FP): 0 Γ¥î
+  True Negatives (TN):  8 Γ£à
+  False Negatives (FN): 12 Γ¥î
+
+≡ƒÄ» Performance Metrics:
+  Precision: 0%
+  Recall:    0.0%
+  F1 Score:  0%
+  Accuracy:  40.0%
+
+≡ƒôï Performance by Category:
+  Administrative      : 0/1 (0%)
+  Demographics        : 0/1 (0%)
+  Factual             : 0/1 (0%)
+  Names               : 0/1 (0%)
+  Invoice             : 0/1 (0%)
+  Gender              : 0/1 (0%)
+  Religion            : 0/1 (0%)
+  Caste               : 0/1 (0%)
+  Race                : 0/1 (0%)
+  Disability          : 0/1 (0%)
+  Stereotyping        : 0/1 (0%)
+  Coded Language      : 0/1 (0%)
+  Socioeconomic       : 0/1 (0%)
+  Age                 : 0/1 (0%)
+  Language            : 0/1 (0%)
+  Statistical         : 0/1 (0%)
+  Legitimate          : 0/1 (0%)
+  Mixed               : 0/1 (0%)
+  Academic            : 0/1 (0%)
+  Ambiguous           : 0/1 (0%)
+
+
+ΓÜá∩╕Å  FAILURE ANALYSIS (12 failures):
+
+  explicit-001 - FN
+    Category: Gender
+    Expected: Bias (high)
+    Actual: No Bias (unknown)
+
+  explicit-002 - FN
+    Category: Religion
+    Expected: Bias (high)
+    Actual: No Bias (unknown)
+
+  explicit-003 - FN
+    Category: Caste
+    Expected: Bias (high)
+    Actual: No Bias (unknown)
+
+  explicit-004 - FN
+    Category: Race
+    Expected: Bias (high)
+    Actual: No Bias (unknown)
+
+  explicit-005 - FN
+    Category: Disability
+    Expected: Bias (high)
+    Actual: No Bias (unknown)
+
+  implicit-001 - FN
+    Category: Stereotyping
+    Expected: Bias (medium)
+    Actual: No Bias (unknown)
+
+  implicit-002 - FN
+    Category: Coded Language
+    Expected: Bias (medium)
+    Actual: No Bias (unknown)
+
+  implicit-003 - FN
+    Category: Socioeconomic
+    Expected: Bias (medium)
+    Actual: No Bias (unknown)
+
+  implicit-004 - FN
+    Category: Age
+    Expected: Bias (medium)
+    Actual: No Bias (unknown)
+
+  implicit-005 - FN
+    Category: Language
+    Expected: Bias (medium)
+    Actual: No Bias (unknown)
+
+  edge-001 - FN
+    Category: Statistical
+    Expected: Bias (high)
+    Actual: No Bias (unknown)
+
+  edge-003 - FN
+    Category: Mixed
+    Expected: Bias (medium)
+    Actual: No Bias (unknown)
+
+======================================================================
+Γ£à EVALUATION COMPLETE
+======================================================================

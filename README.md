@@ -1,36 +1,148 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Bias Buster v1 - Project Scaffold
 
-## Getting Started
+A responsible AI platform for detecting potential bias in datasets and AI-driven decision systems.
 
-First, run the development server:
+## 🚀 Quick Start
+
+### Prerequisites
+- Node.js 18+ installed
+- npm or yarn package manager
+
+### Installation
 
 ```bash
+# Navigate to the project directory
+cd bias-buster
+
+# Install dependencies
+npm install
+
+# Run the development server
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 📁 Project Structure
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```
+bias-buster/
+├── app/                      # Next.js App Router pages and layouts
+│   ├── layout.tsx           # Root layout component
+│   ├── page.tsx             # Home page
+│   ├── globals.css          # Global styles
+│   └── favicon.ico          # App icon
+│
+├── components/              # React components (to be added)
+│   └── ui/                  # Reusable UI components
+│
+├── lib/                     # Core business logic (to be added)
+│   ├── types/               # TypeScript type definitions
+│   └── utils/               # Utility functions
+│
+├── public/                  # Static assets
+│   └── uploads/             # User uploaded files (gitignored)
+│
+├── docs/                    # Documentation (to be added)
+│
+├── .gitignore              # Git ignore rules
+├── eslint.config.mjs       # ESLint configuration
+├── next.config.ts          # Next.js configuration
+├── package.json            # Project dependencies
+├── postcss.config.mjs      # PostCSS configuration
+├── tailwind.config.ts      # Tailwind CSS configuration (to be created)
+└── tsconfig.json           # TypeScript configuration
+```
 
-## Learn More
+## 🛠️ Technology Stack
 
-To learn more about Next.js, take a look at the following resources:
+- **Framework**: Next.js 16 (App Router)
+- **Language**: TypeScript 5
+- **Styling**: Tailwind CSS 4
+- **Linting**: ESLint 9
+- **Runtime**: Node.js 18+
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 📝 Folder Descriptions
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### `/app` - Application Routes
+Contains all pages and layouts using Next.js App Router. Each folder represents a route.
 
-## Deploy on Vercel
+### `/components` - React Components
+Reusable React components organized by feature or type.
+- `/ui` - Basic UI components (buttons, inputs, cards, etc.)
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### `/lib` - Core Logic
+Business logic, utilities, and type definitions.
+- `/types` - TypeScript interfaces and types
+- `/utils` - Helper functions and utilities
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### `/public` - Static Files
+Static assets served directly by Next.js.
+- `/uploads` - Temporary storage for user uploads (not committed to git)
+
+### `/docs` - Documentation
+Project documentation, API specs, and methodology guides.
+
+## 🔧 Available Scripts
+
+```bash
+# Start development server with hot reload
+npm run dev
+
+# Build for production
+npm build
+
+# Start production server
+npm start
+
+# Run ESLint
+npm run lint
+```
+
+## 🚧 Development Status
+
+This is the **initial scaffold** for Bias Buster v1. The following features are planned but not yet implemented:
+
+- [ ] Authentication system
+- [ ] File upload and processing (CSV, PDF, Image)
+- [ ] Bias detection engine
+- [ ] LLM integration for explanations
+- [ ] Database integration
+- [ ] API endpoints
+- [ ] UI components and styling
+- [ ] Chatbot interface
+
+## 🔐 Security Considerations
+
+When implementing features, ensure:
+- Authentication is required for all analysis operations
+- Row-Level Security (RLS) is enforced in the database
+- API keys are never exposed to the client
+- User data is isolated and protected
+- All file uploads are validated and sanitized
+
+## 📚 Core Principles
+
+1. **No Absolute Claims**: The platform does NOT claim mathematical proof of bias
+2. **Deterministic Analysis**: Bias detection is based on statistical signals and rules
+3. **LLM for Explanation Only**: LLMs are used for context understanding and report generation, NOT for bias detection
+4. **Transparency**: All findings include uncertainty and limitations
+5. **Security First**: Authentication, RLS, and data isolation are mandatory
+
+## 🤝 Contributing
+
+This project follows strict guidelines:
+- All bias detection logic must be deterministic
+- LLMs must never override calculations or invent findings
+- Security constraints must never be bypassed
+- Uncertainty must always be disclosed
+
+## 📄 License
+
+[To be determined]
+
+## 🔗 Resources
+
+- [Next.js Documentation](https://nextjs.org/docs)
+- [TypeScript Documentation](https://www.typescriptlang.org/docs/)
+- [Tailwind CSS Documentation](https://tailwindcss.com/docs)
