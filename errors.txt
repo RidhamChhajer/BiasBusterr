@@ -1,0 +1,6 @@
+components/dashboard/BiasDetective.example.tsx(21,6): error TS1109: Expression expected.
+components/dashboard/BiasDetective.example.tsx(24,1): error TS1109: Expression expected.
+components/dashboard/BiasDetective.example.tsx(31,1): error TS2657: JSX expressions must have one parent element.
+components/dashboard/BiasMitigator.example.tsx(8,1): error TS2657: JSX expressions must have one parent element.
+components/dashboard/CertificateDownload.example.tsx(8,1): error TS2657: JSX expressions must have one parent element.
+components/dashboard/HeroScorecard.example.tsx(8,1): error TS2657: JSX expressions must have one parent element.

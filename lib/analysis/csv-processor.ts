@@ -37,7 +37,7 @@ export async function processCSVForRoleConfirmation(
         skip_empty_lines: true,
         trim: true,
         relax_column_count: true
-    })
+    }) as any[]
 
     if (records.length === 0) {
         throw new Error('CSV file is empty')
@@ -82,9 +82,8 @@ export async function processCSVForRoleConfirmation(
     // 6. Store pending analysis
     await storePendingAnalysis(analysisId, {
         dataset,
-        suggested_roles: suggestions,
-        created_at: Date.now(),
-        expires_at: Date.now() + (15 * 60 * 1000),  // 15 minutes
+        createdAt: Date.now(),
+        expiresAt: Date.now() + (15 * 60 * 1000),  // 15 minutes
         extractionResult: {
             success: true,
             dataType: 'structured',

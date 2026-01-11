@@ -66,7 +66,7 @@ export async function GET(request: NextRequest) {
             id: analysis.id,
             status: analysis.status,
             createdAt: analysis.started_at,
-            datasetName: analysis.datasets?.filename || 'Unknown'
+            datasetName: (analysis.datasets as any)?.filename || (analysis.datasets as any)?.[0]?.filename || 'Unknown'
         }))
 
         // 5. Return history (empty array if no analyses)

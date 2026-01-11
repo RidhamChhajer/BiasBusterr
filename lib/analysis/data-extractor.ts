@@ -136,7 +136,7 @@ async function extractFromCSV(buffer: Buffer, fileName: string): Promise<Extract
         }
 
         // Extract headers
-        const headers = Object.keys(records[0])
+        const headers = Object.keys(records[0] as object)
 
         // Convert to row format
         const rows = records.map((record: any) =>

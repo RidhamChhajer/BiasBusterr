@@ -126,7 +126,7 @@ export default function BiasDetective({ shapValues, legalOpinion, onAnalyze }: B
                                         color: '#18181b',
                                         fontWeight: 500
                                     }}
-                                    formatter={(value: number) => `${(value * 100).toFixed(1)}%`}
+                                    formatter={(value: any) => `${(value * 100).toFixed(1)}%`}
                                     labelStyle={{ color: '#18181b', fontWeight: 600 }}
                                 />
                                 <Bar dataKey="importance" radius={[0, 8, 8, 0]}>

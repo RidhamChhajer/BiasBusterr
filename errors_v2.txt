@@ -1,0 +1,85 @@
+app/api/history/route.ts(69,45): error TS2339: Property 'filename' does not exist on type '{ filename: any; }[]'.
+components/dashboard/BiasDetective.tsx(119,33): error TS2607: JSX element class does not support attributes because it does not have a 'props' property.
+components/dashboard/BiasDetective.tsx(119,34): error TS2786: 'XAxis' cannot be used as a JSX component.
+  Its type 'typeof XAxis' is not a valid JSX element type.
+    Type 'typeof XAxis' is not assignable to type 'new (props: any, context: any) => Component<any, any, any>'.
+      Type 'XAxis' is missing the following properties from type 'Component<any, any, any>': context, setState, forceUpdate, props, state
+components/dashboard/BiasDetective.tsx(120,33): error TS2607: JSX element class does not support attributes because it does not have a 'props' property.
+components/dashboard/BiasDetective.tsx(120,34): error TS2786: 'YAxis' cannot be used as a JSX component.
+  Its type 'typeof YAxis' is not a valid JSX element type.
+    Type 'typeof YAxis' is not assignable to type 'new (props: any, context: any) => Component<any, any, any>'.
+      Type 'YAxis' is missing the following properties from type 'Component<any, any, any>': context, setState, forceUpdate, props, state
+components/dashboard/BiasDetective.tsx(121,33): error TS2607: JSX element class does not support attributes because it does not have a 'props' property.
+components/dashboard/BiasDetective.tsx(121,34): error TS2786: 'Tooltip' cannot be used as a JSX component.
+  Its type 'typeof Tooltip' is not a valid JSX element type.
+    Type 'typeof Tooltip' is not assignable to type 'new (props: any, context: any) => Component<any, any, any>'.
+      Type 'Tooltip<ValueType, NameType>' is missing the following properties from type 'Component<any, any, any>': context, setState, forceUpdate, props, state
+components/dashboard/BiasDetective.tsx(132,33): error TS2607: JSX element class does not support attributes because it does not have a 'props' property.
+components/dashboard/BiasDetective.tsx(132,34): error TS2786: 'Bar' cannot be used as a JSX component.
+  Its type 'typeof Bar' is not a valid JSX element type.
+    Type 'typeof Bar' is not assignable to type 'new (props: any, context: any) => Component<any, any, any>'.
+      Type 'Bar' is missing the following properties from type 'Component<any, any, any>': context, setState, forceUpdate, props
+components/dashboard/BiasMitigator.tsx(124,33): error TS2607: JSX element class does not support attributes because it does not have a 'props' property.
+components/dashboard/BiasMitigator.tsx(124,34): error TS2786: 'XAxis' cannot be used as a JSX component.
+  Its type 'typeof XAxis' is not a valid JSX element type.
+    Type 'typeof XAxis' is not assignable to type 'new (props: any, context: any) => Component<any, any, any>'.
+      Type 'XAxis' is missing the following properties from type 'Component<any, any, any>': context, setState, forceUpdate, props, state
+components/dashboard/BiasMitigator.tsx(125,33): error TS2607: JSX element class does not support attributes because it does not have a 'props' property.
+components/dashboard/BiasMitigator.tsx(125,34): error TS2786: 'YAxis' cannot be used as a JSX component.
+  Its type 'typeof YAxis' is not a valid JSX element type.
+    Type 'typeof YAxis' is not assignable to type 'new (props: any, context: any) => Component<any, any, any>'.
+      Type 'YAxis' is missing the following properties from type 'Component<any, any, any>': context, setState, forceUpdate, props, state
+components/dashboard/BiasMitigator.tsx(126,33): error TS2607: JSX element class does not support attributes because it does not have a 'props' property.
+components/dashboard/BiasMitigator.tsx(126,34): error TS2786: 'Tooltip' cannot be used as a JSX component.
+  Its type 'typeof Tooltip' is not a valid JSX element type.
+    Type 'typeof Tooltip' is not assignable to type 'new (props: any, context: any) => Component<any, any, any>'.
+      Type 'Tooltip<ValueType, NameType>' is missing the following properties from type 'Component<any, any, any>': context, setState, forceUpdate, props, state
+components/dashboard/BiasMitigator.tsx(135,33): error TS2607: JSX element class does not support attributes because it does not have a 'props' property.
+components/dashboard/BiasMitigator.tsx(135,34): error TS2786: 'Legend' cannot be used as a JSX component.
+  Its type 'typeof Legend' is not a valid JSX element type.
+    Type 'typeof Legend' is not assignable to type 'new (props: any, context: any) => Component<any, any, any>'.
+      Type 'Legend' is missing the following properties from type 'Component<any, any, any>': context, setState, forceUpdate, props, state
+components/dashboard/BiasMitigator.tsx(136,33): error TS2607: JSX element class does not support attributes because it does not have a 'props' property.
+components/dashboard/BiasMitigator.tsx(136,34): error TS2786: 'Bar' cannot be used as a JSX component.
+  Its type 'typeof Bar' is not a valid JSX element type.
+    Type 'typeof Bar' is not assignable to type 'new (props: any, context: any) => Component<any, any, any>'.
+      Type 'Bar' is missing the following properties from type 'Component<any, any, any>': context, setState, forceUpdate, props
+components/dashboard/BiasMitigator.tsx(137,33): error TS2607: JSX element class does not support attributes because it does not have a 'props' property.
+components/dashboard/BiasMitigator.tsx(137,34): error TS2786: 'Bar' cannot be used as a JSX component.
+  Its type 'typeof Bar' is not a valid JSX element type.
+    Type 'typeof Bar' is not assignable to type 'new (props: any, context: any) => Component<any, any, any>'.
+      Type 'Bar' is missing the following properties from type 'Component<any, any, any>': context, setState, forceUpdate, props
+lib/analysis/csv-processor.ts(47,33): error TS2769: No overload matches this call.
+  Overload 1 of 2, '(o: {}): string[]', gave the following error.
+    Argument of type 'unknown' is not assignable to parameter of type '{}'.
+  Overload 2 of 2, '(o: object): string[]', gave the following error.
+    Argument of type 'unknown' is not assignable to parameter of type 'object'.
+lib/analysis/csv-processor.ts(85,9): error TS2353: Object literal may only specify known properties, and 'suggested_roles' does not exist in type 'PendingAnalysis'.
+lib/analysis/data-extractor.ts(139,37): error TS2769: No overload matches this call.
+  Overload 1 of 2, '(o: {}): string[]', gave the following error.
+    Argument of type 'unknown' is not assignable to parameter of type '{}'.
+  Overload 2 of 2, '(o: object): string[]', gave the following error.
+    Argument of type 'unknown' is not assignable to parameter of type 'object'.
+lib/analysis/role-suggester.ts(115,5): error TS2322: Type '{ column: string; suggested_role: RoleType; confidence: number; reason: string; alternatives: RoleType[]; }[]' is not assignable to type 'RoleSuggestion[]'.
+  Type '{ column: string; suggested_role: RoleType; confidence: number; reason: string; alternatives: RoleType[]; }' is missing the following properties from type 'RoleSuggestion': columnName, suggestedRole, reasoning
+lib/analysis/test-phase2-simple.ts(25,9): error TS2353: Object literal may only specify known properties, and 'nullCount' does not exist in type 'ColumnMetadata'.
+lib/analysis/test-phase2-simple.ts(33,9): error TS2353: Object literal may only specify known properties, and 'nullCount' does not exist in type 'ColumnMetadata'.
+lib/analysis/test-phase2-simple.ts(41,9): error TS2353: Object literal may only specify known properties, and 'nullCount' does not exist in type 'ColumnMetadata'.
+lib/analysis/test-phase2-simple.ts(49,9): error TS2353: Object literal may only specify known properties, and 'nullCount' does not exist in type 'ColumnMetadata'.
+lib/analysis/test-phase2-simple.ts(58,24): error TS2339: Property 'column' does not exist on type 'RoleSuggestion'.
+lib/analysis/test-phase2-simple.ts(59,32): error TS2551: Property 'suggested_role' does not exist on type 'RoleSuggestion'. Did you mean 'suggestedRole'?
+lib/analysis/test-phase2-simple.ts(61,34): error TS2339: Property 'reason' does not exist on type 'RoleSuggestion'.
+lib/analysis/test-phase2-simple.ts(65,29): error TS2339: Property 'column' does not exist on type 'RoleSuggestion'.
+lib/analysis/test-phase2-simple.ts(65,51): error TS2551: Property 'suggested_role' does not exist on type 'RoleSuggestion'. Did you mean 'suggestedRole'?
+lib/analysis/test-phase2-simple.ts(66,29): error TS2339: Property 'column' does not exist on type 'RoleSuggestion'.
+lib/analysis/test-phase2-simple.ts(66,61): error TS2551: Property 'suggested_role' does not exist on type 'RoleSuggestion'. Did you mean 'suggestedRole'?
+lib/analysis/test-phase2-simple.ts(67,29): error TS2339: Property 'column' does not exist on type 'RoleSuggestion'.
+lib/analysis/test-phase2-simple.ts(67,53): error TS2551: Property 'suggested_role' does not exist on type 'RoleSuggestion'. Did you mean 'suggestedRole'?
+lib/analysis/test-phase2-simple.ts(68,29): error TS2339: Property 'column' does not exist on type 'RoleSuggestion'.
+lib/analysis/test-phase2-simple.ts(68,47): error TS2551: Property 'suggested_role' does not exist on type 'RoleSuggestion'. Did you mean 'suggestedRole'?
+lib/analysis/text-extractor.ts(9,17): error TS7016: Could not find a declaration file for module 'pdf-parse'. 'C:/Users/aryan/OneDrive/Desktop/Buildathon/BiasBusterr/node_modules/pdf-parse/index.js' implicitly has an 'any' type.
+  Try `npm i --save-dev @types/pdf-parse` if it exists or add a new declaration (.d.ts) file containing `declare module 'pdf-parse';`
+lib/analysis/trace-test.ts(33,41): error TS2339: Property 'length' does not exist on type '{ groups: ComparableGroup[]; metadata: GroupingMetadata; }'.
+lib/analysis/trace-test.ts(35,21): error TS2488: Type '{ groups: ComparableGroup[]; metadata: GroupingMetadata; }' must have a '[Symbol.iterator]()' method that returns an iterator.
+lib/analysis/trace-test.ts(51,46): error TS2345: Argument of type '{ groups: ComparableGroup[]; metadata: GroupingMetadata; }' is not assignable to parameter of type 'ComparableGroup[]'.
+  Type '{ groups: ComparableGroup[]; metadata: GroupingMetadata; }' is missing the following properties from type 'ComparableGroup[]': length, pop, push, concat, and 35 more.

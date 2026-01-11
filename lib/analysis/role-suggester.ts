@@ -96,10 +96,10 @@ Return JSON:
     const suggestions = parsed.suggestions || []
 
     return suggestions.map((s: any) => ({
-        column: s.column,
-        suggested_role: s.suggested_role,
+        columnName: s.column,
+        suggestedRole: s.suggested_role,
         confidence: s.confidence || 0.7,
-        reason: s.reason || 'AI-suggested role',
+        reasoning: s.reason || 'AI-suggested role',
         alternatives: s.alternatives || []
     }))
 }
@@ -192,10 +192,10 @@ export function suggestRolesHeuristic(
         }
 
         return {
-            column: col.name,
-            suggested_role: suggestedRole,
+            columnName: col.name,
+            suggestedRole,
             confidence,
-            reason,
+            reasoning: reason,
             alternatives
         }
     })
