@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { createClient } from '@/lib/supabase/client'
 
 interface RoleConfirmationViewProps {
     analysisId: string
@@ -10,7 +11,7 @@ interface RoleConfirmationViewProps {
         reasoning: string
     }>
     dataPreview: any[][]
-    onConfirm: (confirmedRoles: Record<string, string>) => void
+    onConfirm: (result: any) => void
     onCancel: () => void
 }
 
@@ -43,6 +44,7 @@ export default function RoleConfirmationView({
 
     const [validationErrors, setValidationErrors] = useState<string[]>([])
     const [isSubmitting, setIsSubmitting] = useState(false)
+    const [debugLogs, setDebugLogs] = useState<string[]>([])
 
     // Validate role assignments
     const validateRoles = (): boolean => {
@@ -81,33 +83,71 @@ export default function RoleConfirmationView({
         }
 
         setIsSubmitting(true)
+        setDebugLogs(['🚀 Starting submission process...'])
 
         try {
+            // Get session token to ensure auth works even if cookies fail
+            const supabase = createClient()
+            const { data: { session } } = await supabase.auth.getSession()
+            const token = session?.access_token
+
+            setDebugLogs(prev => [...prev, `🔑 Auth Token acquired: ${token ? 'YES' : 'NO'}`])
+
             // Convert roles object to array format expected by backend
             const confirmedRolesArray = Object.entries(roles).map(([column, role]) => ({
                 column,
                 role
             }))
 
+            const headers: Record<string, string> = {
+                'Content-Type': 'application/json'
+            }
+
+            if (token) {
+                headers['Authorization'] = `Bearer ${token}`
+            }
+
+            setDebugLogs(prev => [...prev, '📡 Sending request to /api/analyze/confirm-roles...'])
+
             const response = await fetch('/api/analyze/confirm-roles', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers,
+                credentials: 'include', // Ensure session cookies are sent
                 body: JSON.stringify({
                     analysis_id: analysisId,
                     confirmed_roles: confirmedRolesArray
                 })
             })
 
+            setDebugLogs(prev => [...prev, `📥 Response Status: ${response.status} ${response.statusText}`])
+
             const data = await response.json()
+
+            // Merge server logs
+            if (data.debugLogs) {
+                setDebugLogs(prev => [...prev, '--- SERVER LOGS ---', ...data.debugLogs])
+            }
+            if (data.isAnonymous) {
+                setDebugLogs(prev => [...prev, '⚠️ WARNING: Server reports Anonymous User'])
+            }
+            if (data.saveError) {
+                setDebugLogs(prev => [...prev, `❌ SAVE ERROR: ${data.saveError}`])
+            }
 
             if (!response.ok) {
                 throw new Error(data.error || 'Failed to confirm roles')
             }
 
-            // Pass the result back to parent
-            onConfirm(data)
+            setDebugLogs(prev => [...prev, '✅ Success! Proceeding...'])
+
+            // Short delay to let user see logs if needed (optional)
+            setTimeout(() => {
+                onConfirm(data)
+            }, 500)
+
         } catch (error: any) {
             setValidationErrors([error.message])
+            setDebugLogs(prev => [...prev, `💀 CRITICAL ERROR: ${error.message}`])
             setIsSubmitting(false)
         }
     }
@@ -233,6 +273,23 @@ export default function RoleConfirmationView({
                         'Continue to Analysis'
                     )}
                 </button>
+            </div>
+
+            {/* DEBUG PANEL - Visible to help troubleshoot save issues */}
+            <div className="mt-8 p-4 rounded-lg bg-slate-900 text-slate-200 font-mono text-xs overflow-x-auto max-h-96 overflow-y-auto">
+                <p className="font-bold text-yellow-400 mb-2 sticky top-0 bg-slate-900">🔧 Debug Diagnostics</p>
+
+                {debugLogs.length === 0 ? (
+                    <p className="text-slate-500 italic">Waiting for action...</p>
+                ) : (
+                    <ul className="space-y-1">
+                        {debugLogs.map((log, i) => (
+                            <li key={i} className={`${log.includes('❌') ? 'text-red-400' : log.includes('✅') ? 'text-green-400' : log.includes('⚠️') ? 'text-yellow-300' : 'text-slate-300'} whitespace-pre-wrap`}>
+                                {log}
+                            </li>
+                        ))}
+                    </ul>
+                )}
             </div>
         </div>
     )

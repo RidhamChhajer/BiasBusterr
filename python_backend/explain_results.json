@@ -1,0 +1,21 @@
+{
+  "top_features": [
+    {
+      "feature": "gender",
+      "importance": 0.9275
+    },
+    {
+      "feature": "age",
+      "importance": 0.6513
+    },
+    {
+      "feature": "education",
+      "importance": 0.4546
+    },
+    {
+      "feature": "experience",
+      "importance": 0.0034
+    }
+  ],
+  "message": "SHAP analysis complete"
+}

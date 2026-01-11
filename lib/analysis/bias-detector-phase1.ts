@@ -145,6 +145,7 @@ export function detectBiasPhase1(
         console.log('[PHASE 1] Bias Detected:', result.bias_detected)
         console.log('[PHASE 1] Severity:', result.severity)
         console.log('[PHASE 1] Bias Ratio:', (result.metrics.bias_ratio * 100).toFixed(1) + '%')
+        console.log('[PHASE 1] DETECTED ATTRIBUTES:', result.affected_sensitive_attributes.join(', ') || 'None')
         console.log('[PHASE 1] Confidence:', result.confidence.toFixed(2))
         console.log('='.repeat(60))
 

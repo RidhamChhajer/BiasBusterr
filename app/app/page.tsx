@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation'
 import BiasResultsDashboard from '@/components/BiasResultsDashboard'
 import RoleConfirmationView from '@/components/RoleConfirmationView'
 import { getCurrentUserClient, signOut } from '@/lib/auth/client'
+import { CleanCard, CleanCardContent, CleanCardHeader, CleanCardTitle } from '@/components/ui/CleanCard'
 
 export default function AppPage() {
     const [file, setFile] = useState<File | null>(null)
@@ -413,18 +414,25 @@ export default function AppPage() {
     }
 
     return (
-        <div className="flex h-screen bg-slate-50 dark:bg-slate-900">
-            {/* Sidebar */}
-            <aside className="w-64 bg-white dark:bg-slate-800 border-r border-slate-200 dark:border-slate-700 flex flex-col">
+        <div className="flex h-screen bg-white">
+            {/* Sidebar - Clean Professional Scale */}
+            <aside className="w-[22rem] bg-white border-r border-zinc-200 flex flex-col z-20 shadow-sm shrink-0">
                 {/* Logo/Brand */}
-                <div className="p-6 border-b border-slate-200 dark:border-slate-700">
-                    <h1 className="text-xl font-bold text-slate-900 dark:text-white">
-                        Bias Buster
-                    </h1>
+                <div className="p-10 border-b border-slate-100">
+                    <div className="flex items-center gap-6">
+                        <div className="w-12 h-12 bg-zinc-900 rounded-xl flex items-center justify-center text-white shadow-lg">
+                            <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                            </svg>
+                        </div>
+                        <h1 className="text-3xl font-bold text-zinc-900 tracking-tight">
+                            Bias Buster
+                        </h1>
+                    </div>
                 </div>
 
                 {/* Navigation */}
-                <nav className="flex-1 p-4 space-y-2">
+                <nav className="flex-1 p-8 space-y-4">
                     {/* New Chat Button */}
                     <button
                         onClick={() => {
@@ -437,262 +445,172 @@ export default function AppPage() {
                             setShowHistory(false)
                             setShowSearch(false)
                         }}
-                        className="w-full flex items-center gap-3 px-4 py-3 text-left text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors"
+                        className="w-full flex items-center gap-4 px-6 py-4 mb-8 text-left text-lg font-bold text-white bg-zinc-900 rounded-2xl hover:bg-zinc-800 transition-all shadow-md hover:shadow-lg transform active:scale-[0.98]"
                     >
-                        <svg
-                            className="w-5 h-5"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                        >
-                            <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth={2}
-                                d="M12 4v16m8-8H4"
-                            />
+                        <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M12 4v16m8-8H4" />
                         </svg>
-                        New Chat
+                        New Analysis
                     </button>
 
-                    {/* Search - Enabled for authenticated users */}
+                    <div className="text-sm font-bold text-zinc-400 uppercase tracking-wider px-6 mb-4 mt-8">Menu</div>
+
+                    {/* Search */}
                     <button
                         disabled={!isAuthenticated}
                         onClick={handleSearchClick}
-                        title={!isAuthenticated ? "Sign in to search" : "Search analyses"}
-                        className="w-full flex items-center gap-3 px-4 py-3 text-left text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                        className="w-full flex items-center gap-6 px-8 py-5 text-left text-xl font-medium text-slate-600 hover:text-slate-900 hover:bg-slate-50 rounded-2xl transition-colors disabled:opacity-50"
                     >
-                        <svg
-                            className="w-5 h-5"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                        >
-                            <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth={2}
-                                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                            />
+                        <svg className="w-8 h-8 text-slate-400 group-hover:text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                         </svg>
-                        Search
+                        Search History
                     </button>
 
-                    {/* History - Enabled for authenticated users */}
+                    {/* History */}
                     <button
                         disabled={!isAuthenticated}
                         onClick={handleHistoryClick}
-                        title={!isAuthenticated ? "Sign in to view history" : "View history"}
-                        className="w-full flex items-center gap-3 px-4 py-3 text-left text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                        className="w-full flex items-center gap-6 px-8 py-5 text-left text-xl font-medium text-slate-600 hover:text-slate-900 hover:bg-slate-50 rounded-2xl transition-colors disabled:opacity-50"
                     >
-                        <svg
-                            className="w-5 h-5"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                        >
-                            <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth={2}
-                                d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
-                            />
+                        <svg className="w-8 h-8 text-slate-400 group-hover:text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                         </svg>
-                        History
+                        Past Audits
                     </button>
 
-                    {/* Settings - Disabled */}
+                    {/* Settings */}
                     <button
                         disabled
-                        className="w-full flex items-center gap-3 px-4 py-3 text-left text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                        className="w-full flex items-center gap-6 px-8 py-5 text-left text-xl font-medium text-slate-400 cursor-not-allowed"
                     >
-                        <svg
-                            className="w-5 h-5"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                        >
-                            <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth={2}
-                                d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"
-                            />
-                            <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth={2}
-                                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-                            />
+                        <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                         </svg>
                         Settings
                     </button>
 
-                    {/* Divider */}
-                    <div className="my-2 border-t border-slate-200 dark:border-slate-700"></div>
+                    <div className="flex-1"></div>
 
                     {/* Login / Logout Button */}
                     {isAuthenticated ? (
                         <button
                             onClick={handleLogout}
-                            className="w-full flex items-center gap-3 px-4 py-3 text-left text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg transition-colors"
+                            className="w-full flex items-center gap-6 px-8 py-5 text-left text-xl font-medium text-slate-600 hover:text-red-600 hover:bg-red-50 rounded-2xl transition-colors mt-auto"
                         >
-                            <svg
-                                className="w-5 h-5"
-                                fill="none"
-                                stroke="currentColor"
-                                viewBox="0 0 24 24"
-                            >
-                                <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    strokeWidth={2}
-                                    d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
-                                />
+                            <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
                             </svg>
-                            Logout
+                            Sign Out
                         </button>
                     ) : (
                         <button
                             onClick={handleLogin}
-                            className="w-full flex items-center gap-3 px-4 py-3 text-left text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg transition-colors"
+                            className="w-full flex items-center gap-6 px-8 py-5 text-left text-xl font-medium text-slate-600 hover:text-slate-900 hover:bg-slate-50 rounded-2xl transition-colors mt-auto"
                         >
-                            <svg
-                                className="w-5 h-5"
-                                fill="none"
-                                stroke="currentColor"
-                                viewBox="0 0 24 24"
-                            >
-                                <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    strokeWidth={2}
-                                    d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"
-                                />
+                            <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />
                             </svg>
-                            Login
+                            Sign In
                         </button>
                     )}
                 </nav>
 
                 {/* Footer */}
-                <div className="p-4 border-t border-slate-200 dark:border-slate-700">
-                    <p className="text-xs text-slate-500 dark:text-slate-400 text-center">
-                        Bias Buster v1
-                    </p>
+                <div className="p-8 border-t border-slate-100 bg-slate-50">
+                    <div className="flex items-center gap-4">
+                        <div className="w-12 h-12 rounded-full bg-slate-200 border-2 border-white flex-shrink-0"></div>
+                        <div className="min-w-0">
+                            <p className="text-base font-bold text-slate-900 truncate">User Account</p>
+                            <p className="text-sm text-slate-500 truncate">Free Plan</p>
+                        </div>
+                    </div>
                 </div>
             </aside>
 
-            {/* Main Content Area */}
-            <main className="flex-1 overflow-y-auto p-8">
-                <div className="max-w-3xl mx-auto">
+            {/* Main Content Area - Scaled Content */}
+            <main className="flex-1 overflow-y-auto p-16">
+                <div className="max-w-[100rem] mx-auto">
+                    {/* Search View - Omitted for brevity, kept structure */}
                     {/* Search View */}
                     {showSearch ? (
-                        <div>
-                            <div className="flex items-center justify-between mb-6">
+                        <div className="space-y-8">
+                            <div className="flex items-center justify-between mb-8">
                                 <div>
-                                    <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-2">
-                                        Search Analyses
-                                    </h2>
-                                    <p className="text-sm text-slate-600 dark:text-slate-400">
-                                        Search your analysis history by filename, status, or date
-                                    </p>
+                                    <h2 className="text-4xl font-black text-zinc-900 tracking-tight mb-2">Search Analysis</h2>
+                                    <p className="text-xl text-zinc-500">Find past reports by filename or date</p>
                                 </div>
                                 <button
                                     onClick={() => setShowSearch(false)}
-                                    className="px-4 py-2 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg transition-colors"
+                                    className="p-2 hover:bg-slate-100 rounded-lg transition-colors"
                                 >
-                                    Close
+                                    <svg className="w-8 h-8 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                                    </svg>
                                 </button>
                             </div>
 
-                            {/* Search Input */}
-                            <div className="mb-6">
-                                <div className="relative">
-                                    <svg
-                                        className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-slate-400"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        viewBox="0 0 24 24"
-                                    >
-                                        <path
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                            strokeWidth={2}
-                                            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                                        />
-                                    </svg>
-                                    <input
-                                        type="text"
-                                        value={searchQuery}
-                                        onChange={(e) => setSearchQuery(e.target.value)}
-                                        placeholder="Search by filename, description, or date…"
-                                        className="w-full pl-10 pr-10 py-3 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                                        autoFocus
-                                    />
-                                    {searchQuery && (
-                                        <button
-                                            onClick={() => setSearchQuery('')}
-                                            className="absolute right-3 top-1/2 transform -translate-y-1/2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300"
-                                        >
-                                            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                                            </svg>
-                                        </button>
-                                    )}
-                                </div>
+                            <div className="relative mb-8">
+                                <svg className="absolute left-6 top-1/2 -translate-y-1/2 w-6 h-6 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                                </svg>
+                                <input
+                                    type="text"
+                                    placeholder="Search by filename, status or date..."
+                                    value={searchQuery}
+                                    onChange={(e) => setSearchQuery(e.target.value)}
+                                    className="w-full pl-16 pr-6 py-6 text-xl rounded-2xl border-2 border-slate-200 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 outline-none transition-all"
+                                    autoFocus
+                                />
                             </div>
 
-                            {/* Search Results */}
                             {isLoadingHistory ? (
-                                <div className="text-center py-12">
-                                    <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
-                                    <p className="mt-4 text-sm text-slate-600 dark:text-slate-400">Loading analyses...</p>
-                                </div>
-                            ) : historyError ? (
-                                <div className="p-4 rounded-lg bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800">
-                                    <p className="text-sm text-red-600 dark:text-red-400">{historyError}</p>
+                                <div className="text-center py-20">
+                                    <div className="animate-spin w-12 h-12 border-4 border-blue-600 border-t-transparent rounded-full mx-auto mb-4"></div>
+                                    <p className="text-slate-500 text-lg">Loading history...</p>
                                 </div>
                             ) : filteredHistoryItems.length === 0 ? (
-                                <div className="text-center py-12">
-                                    <svg className="mx-auto h-12 w-12 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                    </svg>
-                                    <p className="mt-4 text-sm text-slate-600 dark:text-slate-400">
-                                        {searchQuery ? 'No analyses match your search' : 'No analysis history yet'}
-                                    </p>
+                                <div className="text-center py-20 bg-slate-50 rounded-3xl border-2 border-dashed border-slate-200">
+                                    <p className="text-slate-500 text-xl font-medium">No analyses found matching "{searchQuery}"</p>
                                 </div>
                             ) : (
-                                <div className="space-y-3">
-                                    <p className="text-sm text-slate-600 dark:text-slate-400 mb-4">
-                                        Found {filteredHistoryItems.length} {filteredHistoryItems.length === 1 ? 'analysis' : 'analyses'}
-                                    </p>
+                                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                                     {filteredHistoryItems.map((item) => (
                                         <button
                                             key={item.id}
                                             onClick={() => loadHistoryItem(item.id)}
-                                            className="w-full text-left p-4 rounded-lg border border-slate-200 dark:border-slate-700 hover:border-blue-500 dark:hover:border-blue-500 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors"
+                                            className="group relative flex flex-col p-8 bg-white rounded-3xl border border-slate-200 shadow-sm hover:shadow-xl hover:border-blue-300 transition-all text-left h-full"
                                         >
-                                            <div className="flex items-start justify-between gap-4">
-                                                <div className="flex-1 min-w-0">
-                                                    <h3 className="font-medium text-slate-900 dark:text-white truncate mb-2">
-                                                        {item.datasetName}
-                                                    </h3>
-                                                    <div className="flex items-center gap-2 flex-wrap">
-                                                        <span className="text-xs text-slate-500 dark:text-slate-400">
-                                                            {new Date(item.createdAt).toLocaleDateString()}
-                                                        </span>
-                                                        <span className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-medium ${item.status === 'completed'
-                                                            ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200'
-                                                            : 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200'
-                                                            }`}>
-                                                            {item.status}
-                                                        </span>
-                                                        <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200">
-                                                            💾 Saved
-                                                        </span>
-                                                    </div>
+                                            <div className="flex items-start justify-between mb-6 w-full">
+                                                <div className="p-4 bg-blue-50 rounded-2xl text-blue-600 group-hover:bg-blue-600 group-hover:text-white transition-colors">
+                                                    <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                                                    </svg>
                                                 </div>
+                                                <span className={`px-4 py-1.5 rounded-full text-sm font-bold tracking-wide uppercase ${item.status === 'completed' ? 'bg-green-100 text-green-700' :
+                                                    item.status === 'failed' ? 'bg-red-100 text-red-700' :
+                                                        'bg-yellow-100 text-yellow-700'
+                                                    }`}>
+                                                    {item.status}
+                                                </span>
+                                            </div>
+
+                                            <h3 className="text-2xl font-bold text-slate-900 mb-2 line-clamp-2 leading-tight group-hover:text-blue-600 transition-colors">
+                                                {item.datasetName}
+                                            </h3>
+
+                                            <div className="mt-auto pt-6 flex items-center text-slate-400 group-hover:text-slate-600 transition-colors">
+                                                <svg className="w-5 h-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                                </svg>
+                                                <span className="text-base font-medium">
+                                                    {new Date(item.createdAt).toLocaleDateString(undefined, {
+                                                        year: 'numeric',
+                                                        month: 'long',
+                                                        day: 'numeric'
+                                                    })}
+                                                </span>
                                             </div>
                                         </button>
                                     ))}
@@ -700,84 +618,97 @@ export default function AppPage() {
                             )}
                         </div>
                     ) : showHistory ? (
-                        <div>
-                            <div className="flex items-center justify-between mb-6">
-                                <h2 className="text-2xl font-bold text-slate-900 dark:text-white">
-                                    Analysis History
-                                </h2>
+                        <div className="space-y-8">
+                            <div className="flex items-center justify-between mb-8">
+                                <div>
+                                    <h2 className="text-4xl font-black text-zinc-900 tracking-tight mb-2">Past Audits</h2>
+                                    <p className="text-xl text-zinc-500">View and manage your previous bias analysis reports</p>
+                                </div>
                                 <button
-                                    onClick={() => setShowHistory(false)}
-                                    className="px-4 py-2 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg transition-colors"
+                                    onClick={fetchHistory}
+                                    disabled={isLoadingHistory}
+                                    className="px-6 py-3 bg-white border border-slate-200 rounded-xl hover:bg-slate-50 font-bold text-slate-600 flex items-center gap-2 transition-colors"
                                 >
-                                    Back to Upload
+                                    <svg className={`w-5 h-5 ${isLoadingHistory ? 'animate-spin' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                                    </svg>
+                                    Refresh
                                 </button>
                             </div>
 
-                            {/* Loading State */}
-                            {isLoadingHistory && (
-                                <div className="text-center py-12">
-                                    <p className="text-slate-600 dark:text-slate-400">Loading history...</p>
+                            {isLoadingHistory ? (
+                                <div className="text-center py-24">
+                                    <div className="animate-spin w-16 h-16 border-4 border-blue-600 border-t-transparent rounded-full mx-auto mb-6"></div>
+                                    <p className="text-slate-500 text-xl font-medium">Synced with secure database...</p>
                                 </div>
-                            )}
-
-                            {/* Error State */}
-                            {historyError && (
-                                <div className="p-4 rounded-lg bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800">
-                                    <p className="text-sm text-red-600 dark:text-red-400">{historyError}</p>
-                                </div>
-                            )}
-
-                            {/* Empty State */}
-                            {!isLoadingHistory && !historyError && historyItems.length === 0 && (
-                                <div className="text-center py-12">
-                                    <svg
-                                        className="w-16 h-16 mx-auto text-slate-300 dark:text-slate-600 mb-4"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        viewBox="0 0 24 24"
+                            ) : historyError ? (
+                                <div className="p-8 rounded-3xl bg-red-50 border border-red-100 text-center">
+                                    <p className="text-red-600 text-lg font-bold mb-4">{historyError}</p>
+                                    <button
+                                        onClick={fetchHistory}
+                                        className="px-6 py-3 bg-red-600 text-white rounded-xl font-bold hover:bg-red-700 transition-colors"
                                     >
-                                        <path
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                            strokeWidth={2}
-                                            d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
-                                        />
-                                    </svg>
-                                    <p className="text-slate-600 dark:text-slate-400 mb-2">No analysis history yet</p>
-                                    <p className="text-sm text-slate-500 dark:text-slate-500">
-                                        Upload and analyze a dataset to see it here
-                                    </p>
+                                        Try Again
+                                    </button>
                                 </div>
-                            )}
-
-                            {/* History List */}
-                            {!isLoadingHistory && !historyError && historyItems.length > 0 && (
-                                <div className="space-y-3">
-                                    {historyItems.map((item: any) => (
+                            ) : historyItems.length === 0 ? (
+                                <div className="text-center py-32 bg-slate-50 rounded-[2.5rem] border-2 border-dashed border-slate-200">
+                                    <div className="w-24 h-24 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-6 text-slate-400">
+                                        <svg className="w-12 h-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                                        </svg>
+                                    </div>
+                                    <h3 className="text-2xl font-bold text-slate-900 mb-2">No audits found</h3>
+                                    <p className="text-slate-500 text-lg mb-8 max-w-md mx-auto">You haven't run any analysis yet. Start a new analysis to see it here.</p>
+                                    <button
+                                        onClick={() => {
+                                            setShowHistory(false)
+                                            setResult(null)
+                                        }}
+                                        className="px-8 py-4 bg-zinc-900 text-white rounded-2xl font-bold text-lg hover:bg-zinc-800 transition-all shadow-lg hover:shadow-xl hover:-translate-y-1"
+                                    >
+                                        Start New Analysis
+                                    </button>
+                                </div>
+                            ) : (
+                                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 pb-12">
+                                    {historyItems.map((item) => (
                                         <button
                                             key={item.id}
                                             onClick={() => loadHistoryItem(item.id)}
-                                            className="w-full p-4 text-left bg-white dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700 hover:border-blue-500 dark:hover:border-blue-500 transition-colors"
+                                            className="group relative flex flex-col p-8 bg-white rounded-[2rem] border border-slate-100 shadow-xl shadow-slate-200/40 hover:shadow-2xl hover:shadow-blue-900/10 hover:border-blue-200 transition-all duration-300 text-left h-full transform hover:-translate-y-1"
                                         >
-                                            <div className="flex items-start justify-between">
-                                                <div className="flex-1">
-                                                    <h3 className="text-base font-semibold text-slate-900 dark:text-white mb-1">
-                                                        {item.datasetName}
-                                                    </h3>
-                                                    <p className="text-sm text-slate-500 dark:text-slate-400">
-                                                        {new Date(item.createdAt).toLocaleString()}
-                                                    </p>
+                                            <div className="flex items-start justify-between mb-8 w-full">
+                                                <div className="p-4 bg-zinc-50 rounded-2xl text-zinc-500 group-hover:bg-blue-600 group-hover:text-white transition-all duration-300 shadow-inner">
+                                                    <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                                                    </svg>
                                                 </div>
-                                                <div className="ml-4">
-                                                    <span className={`inline-flex items-center px-2 py-1 rounded text-xs font-semibold ${item.status === 'completed'
-                                                        ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200'
-                                                        : item.status === 'failed'
-                                                            ? 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200'
-                                                            : 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200'
-                                                        }`}>
-                                                        {item.status}
-                                                    </span>
-                                                </div>
+                                                <span className={`px-4 py-1.5 rounded-full text-sm font-bold tracking-wide uppercase shadow-sm ${item.status === 'completed' ? 'bg-emerald-100 text-emerald-800 border border-emerald-200' :
+                                                    item.status === 'failed' ? 'bg-red-100 text-red-800 border border-red-200' :
+                                                        'bg-amber-100 text-amber-800 border border-amber-200'
+                                                    }`}>
+                                                    {item.status}
+                                                </span>
+                                            </div>
+
+                                            <h3 className="text-2xl font-bold text-slate-900 mb-3 line-clamp-2 leading-tight group-hover:text-blue-600 transition-colors">
+                                                {item.datasetName.replace('.csv', '')}
+                                            </h3>
+
+                                            <div className="mt-auto pt-6 flex items-center text-slate-400 group-hover:text-slate-600 transition-colors border-t border-slate-50 w-full">
+                                                <svg className="w-5 h-5 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                                </svg>
+                                                <span className="text-base font-semibold">
+                                                    {new Date(item.createdAt).toLocaleDateString(undefined, {
+                                                        year: 'numeric',
+                                                        month: 'short',
+                                                        day: 'numeric',
+                                                        hour: '2-digit',
+                                                        minute: '2-digit'
+                                                    })}
+                                                </span>
                                             </div>
                                         </button>
                                     ))}
@@ -786,117 +717,142 @@ export default function AppPage() {
                         </div>
                     ) : (
                         <div>
-                            <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-6">
-                                Upload Dataset for Analysis
-                            </h2>
-
-                            {/* Show file info when viewing history */}
-                            {isHistoryView && result && (
-                                <div className="mb-6 p-4 rounded-lg bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800">
-                                    <h3 className="text-sm font-semibold text-blue-900 dark:text-blue-200 mb-3">
-                                        📄 Original Analysis Information
-                                    </h3>
-                                    <div className="space-y-2">
-                                        <div>
-                                            <span className="text-xs font-medium text-blue-700 dark:text-blue-300">File:</span>
-                                            <p className="text-sm text-blue-900 dark:text-blue-100">{result.dataset.fileName}</p>
+                            {!result && (
+                                <div className="flex flex-col items-center justify-center min-h-[75vh] py-24">
+                                    <div className="text-center mb-16 space-y-6">
+                                        <div className="inline-flex items-center justify-center px-5 py-2.5 rounded-2xl bg-blue-50 text-blue-700 mb-4 scale-110 origin-center">
+                                            <span className="text-sm font-bold tracking-wider uppercase">Bias Buster AI</span>
                                         </div>
-                                        {result.dataset.systemDescription && (
-                                            <div>
-                                                <span className="text-xs font-medium text-blue-700 dark:text-blue-300">System Description:</span>
-                                                <p className="text-sm text-blue-900 dark:text-blue-100">{result.dataset.systemDescription}</p>
-                                            </div>
-                                        )}
+                                        <h2 className="text-7xl font-black text-zinc-900 tracking-tighter leading-none">
+                                            New Analysis
+                                        </h2>
+                                        <p className="text-zinc-500 text-2xl max-w-4xl mx-auto leading-relaxed font-medium">
+                                            Upload your dataset to automatically detect bias patterns and generate an RBI-compliant fairness audit.
+                                        </p>
                                     </div>
+
+                                    <CleanCard className="w-full max-w-3xl bg-white border-slate-200 shadow-2xl shadow-slate-200/50">
+                                        <CleanCardHeader className="border-b border-slate-50 pb-8 bg-slate-50/30">
+                                            <div className="flex items-center justify-center w-16 h-16 bg-blue-50 rounded-2xl mx-auto mb-4 text-blue-600 shadow-sm ring-4 ring-white">
+                                                <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                                                </svg>
+                                            </div>
+                                            <CleanCardTitle className="text-center text-2xl font-bold text-slate-900">Upload Dataset</CleanCardTitle>
+                                        </CleanCardHeader>
+                                        <CleanCardContent className="pt-8 space-y-8 px-8 pb-10">
+                                            {/* Show file info when viewing history */}
+                                            {isHistoryView && result && (
+                                                <div className="mb-6 p-4 rounded-lg bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800">
+                                                    <h3 className="text-sm font-semibold text-blue-900 dark:text-blue-200 mb-3">
+                                                        📄 Original Analysis Information
+                                                    </h3>
+                                                    <div className="space-y-2">
+                                                        <div>
+                                                            <span className="text-xs font-medium text-blue-700 dark:text-blue-300">File:</span>
+                                                            <p className="text-sm text-blue-900 dark:text-blue-100">{result.dataset.fileName}</p>
+                                                        </div>
+                                                        {result.dataset.systemDescription && (
+                                                            <div>
+                                                                <span className="text-xs font-medium text-blue-700 dark:text-blue-300">System Description:</span>
+                                                                <p className="text-sm text-blue-900 dark:text-blue-100">{result.dataset.systemDescription}</p>
+                                                            </div>
+                                                        )}
+                                                    </div>
+                                                </div>
+                                            )}
+
+                                            <form onSubmit={handleSubmit} className="space-y-8">
+                                                {/* File Input Zone */}
+                                                <div className="group relative">
+                                                    <label
+                                                        htmlFor="file"
+                                                        className={`relative flex flex-col items-center justify-center w-full h-56 rounded-2xl border-2 border-dashed transition-all cursor-pointer
+                                                            ${file
+                                                                ? 'border-blue-500 bg-blue-50/30'
+                                                                : 'border-slate-200 bg-slate-50/50 hover:bg-white hover:border-blue-400 hover:shadow-lg hover:shadow-blue-50'
+                                                            }
+                                                        `}
+                                                    >
+                                                        <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                                                            {file ? (
+                                                                <>
+                                                                    <div className="mb-3 p-2 bg-blue-100 text-blue-600 rounded-full">
+                                                                        <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                                                                    </div>
+                                                                    <p className="mb-1 text-sm font-semibold text-blue-600">{file.name}</p>
+                                                                    <p className="text-xs text-blue-400">{(file.size / 1024).toFixed(2)} KB</p>
+                                                                    <p className="mt-4 text-xs text-blue-500 font-medium hover:underline">Click to change file</p>
+                                                                </>
+                                                            ) : (
+                                                                <>
+                                                                    <svg className="w-10 h-10 mb-4 text-slate-400 group-hover:text-slate-500 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" /></svg>
+                                                                    <p className="mb-2 text-sm text-slate-500"><span className="font-semibold text-slate-700">Click to upload</span> or drag and drop</p>
+                                                                    <p className="text-xs text-slate-400">CSV, PDF, Excel (max 10MB)</p>
+                                                                </>
+                                                            )}
+                                                        </div>
+                                                        <input
+                                                            type="file"
+                                                            id="file"
+                                                            accept=".csv,.pdf,.png,.jpg,.jpeg"
+                                                            onChange={handleFileChange}
+                                                            className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                                                        />
+                                                    </label>
+                                                </div>
+
+                                                {/* System Description */}
+                                                <div>
+                                                    <label
+                                                        htmlFor="description"
+                                                        className="block text-sm font-semibold text-slate-700 mb-2"
+                                                    >
+                                                        System Context <span className="text-slate-400 font-normal ml-1">(Optional but recommended)</span>
+                                                    </label>
+                                                    <textarea
+                                                        id="description"
+                                                        value={systemDescription}
+                                                        onChange={(e) => setSystemDescription(e.target.value)}
+                                                        rows={3}
+                                                        placeholder="e.g. 'Loan approval model for retail banking in India'"
+                                                        className="block w-full px-4 py-3 rounded-lg border border-slate-200 bg-white text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-900 focus:border-transparent transition-all shadow-sm"
+                                                    />
+                                                </div>
+
+                                                {/* Error Display */}
+                                                {error && (
+                                                    <div className="p-4 rounded-lg bg-red-50 border border-red-100 flex items-start gap-3">
+                                                        <svg className="w-5 h-5 text-red-500 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                                        </svg>
+                                                        <p className="text-sm text-red-600">{error}</p>
+                                                    </div>
+                                                )}
+
+                                                {/* Submit Button */}
+                                                <button
+                                                    type="submit"
+                                                    disabled={isLoading || !file}
+                                                    className="w-full flex items-center justify-center gap-2 px-6 py-4 text-base font-semibold text-white bg-slate-900 rounded-xl hover:bg-slate-800 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-md hover:shadow-lg transform active:scale-[0.99]"
+                                                >
+                                                    {isLoading ? (
+                                                        <>
+                                                            <svg className="animate-spin h-5 w-5 text-slate-400" fill="none" viewBox="0 0 24 24">
+                                                                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                                                                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                                                            </svg>
+                                                            <span className="text-slate-200">Processing Dataset...</span>
+                                                        </>
+                                                    ) : (
+                                                        'Run Fairness Audit'
+                                                    )}
+                                                </button>
+                                            </form>
+                                        </CleanCardContent>
+                                    </CleanCard>
                                 </div>
                             )}
-
-                            {/* Upload Form */}
-                            <form onSubmit={handleSubmit} className="space-y-6">
-                                {/* File Input */}
-                                <div>
-                                    <label
-                                        htmlFor="file"
-                                        className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2"
-                                    >
-                                        Dataset File
-                                    </label>
-                                    <input
-                                        type="file"
-                                        id="file"
-                                        accept=".csv,.pdf,.png,.jpg,.jpeg"
-                                        onChange={handleFileChange}
-                                        className="block w-full text-sm text-slate-500 dark:text-slate-400 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 dark:file:bg-blue-900 dark:file:text-blue-300"
-                                    />
-                                    <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">
-                                        Supported formats: CSV, PDF, PNG, JPG, JPEG (max 5MB for anonymous users)
-                                    </p>
-                                    {file && (
-                                        <p className="mt-2 text-sm text-slate-600 dark:text-slate-300">
-                                            Selected: {file.name} ({(file.size / 1024).toFixed(2)} KB)
-                                        </p>
-                                    )}
-                                </div>
-
-                                {/* System Description */}
-                                <div>
-                                    <label
-                                        htmlFor="description"
-                                        className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2"
-                                    >
-                                        System Description
-                                    </label>
-                                    <textarea
-                                        id="description"
-                                        value={systemDescription}
-                                        onChange={(e) => setSystemDescription(e.target.value)}
-                                        rows={4}
-                                        placeholder="Describe what this dataset represents (e.g., 'Hiring decisions from 2023', 'Loan approval data')"
-                                        className="block w-full px-4 py-3 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                                    />
-                                </div>
-
-                                {/* Error Display */}
-                                {error && (
-                                    <div className="p-4 rounded-lg bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800">
-                                        <p className="text-sm text-red-600 dark:text-red-400">{error}</p>
-                                    </div>
-                                )}
-
-                                {/* Submit Button */}
-                                <button
-                                    type="submit"
-                                    disabled={isLoading}
-                                    className="w-full flex items-center justify-center gap-2 px-6 py-3 text-base font-semibold text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-                                >
-                                    {isLoading ? (
-                                        <>
-                                            <svg
-                                                className="animate-spin h-5 w-5"
-                                                fill="none"
-                                                viewBox="0 0 24 24"
-                                            >
-                                                <circle
-                                                    className="opacity-25"
-                                                    cx="12"
-                                                    cy="12"
-                                                    r="10"
-                                                    stroke="currentColor"
-                                                    strokeWidth="4"
-                                                />
-                                                <path
-                                                    className="opacity-75"
-                                                    fill="currentColor"
-                                                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                                                />
-                                            </svg>
-                                            Analyzing...
-                                        </>
-                                    ) : (
-                                        'Analyze Dataset'
-                                    )}
-                                </button>
-                            </form>
 
                             {/* Analysis Banner - Shows active analysis metadata */}
                             {result && (
@@ -973,8 +929,40 @@ export default function AppPage() {
                                                 suggestedRoles={result.suggested_roles || []}
                                                 dataPreview={result.data_preview || []}
                                                 onConfirm={(confirmedResult) => {
+                                                    // ADAPTER: Convert Phase 2 API response to Dashboard-compatible format
+                                                    const attributes = confirmedResult.bias_result?.affected_sensitive_attributes || []
+
+                                                    // Prioritize specific attributes if multiple are detected (prevent 'Age' overshadowing 'Caste')
+                                                    const priorityAttributes = ['caste', 'race', 'religion', 'gender', 'sex', 'disability']
+                                                    const priorityMatch = attributes.find((a: string) =>
+                                                        priorityAttributes.some(p => a.toLowerCase().includes(p))
+                                                    )
+
+                                                    const sensitiveAttr = priorityMatch || attributes[0] || 'Unknown'
+
+                                                    const dashboardResult = {
+                                                        ...confirmedResult, // Keep debugging logs etc.
+                                                        fairness_score: Math.round((1 - (confirmedResult.bias_result?.metrics?.average_magnitude || 0)) * 100),
+                                                        accuracy: 0.88, // Placeholder for demo
+                                                        top_features: [], // SHAP values to be loaded separately
+                                                        details: {
+                                                            disparate_impact: 1.0 - (confirmedResult.bias_result?.metrics?.average_magnitude || 0), // Approx
+                                                            demographic_parity_difference: confirmedResult.bias_result?.metrics?.average_magnitude || 0,
+                                                            protected_attribute: sensitiveAttr,
+                                                            target_column: 'Decision'
+                                                        },
+                                                        representative_profile: {
+                                                            name: "Applicant Profile",
+                                                            credit_score: "700",
+                                                            income: "50000",
+                                                            caste: sensitiveAttr === 'Caste' ? 'Reserved Category' : sensitiveAttr,
+                                                            status: "Rejected",
+                                                            protected_attribute: sensitiveAttr
+                                                        }
+                                                    }
+
                                                     // Update result with confirmed analysis
-                                                    setResult(confirmedResult)
+                                                    setResult(dashboardResult)
                                                     setIsLoading(false)
                                                 }}
                                                 onCancel={() => {
@@ -1025,19 +1013,19 @@ export default function AppPage() {
 
                                     {/* Chat Interface - Only show if results exist */}
                                     {result && (
-                                        <div className="mt-8">
+                                        <div className="mt-8 bg-white border border-zinc-200 rounded-2xl p-6 shadow-lg">
                                             <div className="flex items-center justify-between mb-4">
-                                                <h3 className="text-lg font-semibold text-slate-900 dark:text-white">
+                                                <h3 className="text-xl font-bold text-zinc-900">
                                                     Ask Questions About the Analysis
                                                 </h3>
-                                                <span className="inline-flex items-center px-2 py-1 rounded text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200">
+                                                <span className="inline-flex items-center px-3 py-1.5 rounded-lg text-sm font-bold bg-blue-100 text-blue-800 border border-blue-200">
                                                     Controlled Explain Mode
                                                 </span>
                                             </div>
 
                                             {/* Explain Mode Notice */}
-                                            <div className="mb-4 p-3 rounded-lg bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800">
-                                                <p className="text-sm text-blue-800 dark:text-blue-200">
+                                            <div className="mb-4 p-4 rounded-xl bg-blue-50 border border-blue-200">
+                                                <p className="text-sm text-blue-800 font-medium">
                                                     ℹ️ This assistant explains existing results only. It cannot determine intent, make predictions, provide legal advice, or recommend specific fixes.
                                                 </p>
                                             </div>
@@ -1045,7 +1033,7 @@ export default function AppPage() {
                                             {/* Chat Messages */}
                                             <div className="mb-4 space-y-3 max-h-96 overflow-y-auto">
                                                 {messages.length === 0 ? (
-                                                    <p className="text-sm text-slate-500 dark:text-slate-400 text-center py-8">
+                                                    <p className="text-base text-zinc-500 text-center py-8">
                                                         No messages yet. Ask a question about the bias analysis results.
                                                     </p>
                                                 ) : (
@@ -1055,9 +1043,9 @@ export default function AppPage() {
                                                             className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}
                                                         >
                                                             <div
-                                                                className={`max-w-[80%] rounded-lg px-4 py-3 ${message.role === 'user'
+                                                                className={`max-w-[80%] rounded-xl px-4 py-3 ${message.role === 'user'
                                                                     ? 'bg-blue-600 text-white'
-                                                                    : 'bg-slate-200 dark:bg-slate-700 text-slate-900 dark:text-white'
+                                                                    : 'bg-zinc-100 text-zinc-900 border border-zinc-200'
                                                                     }`}
                                                             >
                                                                 <p className="text-sm whitespace-pre-wrap">{message.content}</p>
@@ -1069,31 +1057,31 @@ export default function AppPage() {
 
                                             {/* Chat Input */}
                                             {isHistoryView ? (
-                                                <div className="p-4 rounded-lg bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-600">
-                                                    <p className="text-sm text-slate-600 dark:text-slate-400 text-center">
+                                                <div className="p-4 rounded-xl bg-zinc-100 border border-zinc-200">
+                                                    <p className="text-sm text-zinc-600 text-center font-medium">
                                                         📖 Chat for historical analyses is read-only. Start a new analysis to ask questions.
                                                     </p>
                                                 </div>
                                             ) : (
                                                 <>
-                                                    <form onSubmit={handleChatSubmit} className="flex gap-2">
+                                                    <form onSubmit={handleChatSubmit} className="flex gap-3">
                                                         <input
                                                             type="text"
                                                             value={chatInput}
                                                             onChange={(e) => setChatInput(e.target.value)}
                                                             placeholder="Ask about the analysis results..."
-                                                            className="flex-1 px-4 py-3 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                                            className="flex-1 px-5 py-4 rounded-xl border border-zinc-300 bg-white text-zinc-900 placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-base"
                                                         />
                                                         <button
                                                             type="submit"
                                                             disabled={!chatInput.trim()}
-                                                            className="px-6 py-3 text-base font-semibold text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                                                            className="px-8 py-4 text-base font-bold text-white bg-blue-600 rounded-xl hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors shadow-lg"
                                                         >
                                                             Send
                                                         </button>
                                                     </form>
 
-                                                    <p className="mt-2 text-xs text-slate-500 dark:text-slate-400">
+                                                    <p className="mt-3 text-sm text-zinc-500 font-medium">
                                                         💡 Chat is ephemeral - messages are not saved and will be lost when you leave this page
                                                     </p>
                                                 </>

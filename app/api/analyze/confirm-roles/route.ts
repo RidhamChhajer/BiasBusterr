@@ -21,8 +21,15 @@ import { getCurrentUser } from '@/lib/auth/auth'
 import { createClient } from '@/lib/supabase/server'
 
 export async function POST(request: NextRequest) {
+    // Collecting logs to return in response for debug purposes
+    const logs: string[] = []
+    const log = (msg: string) => {
+        console.log(msg)
+        logs.push(msg)
+    }
+
     try {
-        console.log('[CONFIRM ROLES] Processing role confirmation request...')
+        log('[CONFIRM ROLES] Processing role confirmation request...')
 
         // Parse request body
         const body = await request.json()
@@ -31,14 +38,14 @@ export async function POST(request: NextRequest) {
         // Validate request
         if (!analysis_id || typeof analysis_id !== 'string') {
             return NextResponse.json(
-                { error: 'Missing or invalid analysis_id' },
+                { error: 'Missing or invalid analysis_id', debugLogs: logs },
                 { status: 400 }
             )
         }
 
         if (!confirmed_roles || !Array.isArray(confirmed_roles)) {
             return NextResponse.json(
-                { error: 'Missing or invalid confirmed_roles' },
+                { error: 'Missing or invalid confirmed_roles', debugLogs: logs },
                 { status: 400 }
             )
         }
@@ -47,46 +54,48 @@ export async function POST(request: NextRequest) {
         const pendingAnalysis = await getPendingAnalysis(analysis_id)
 
         if (!pendingAnalysis) {
-            console.log('[CONFIRM ROLES] ❌ Analysis not found or expired:', analysis_id)
+            log(`[CONFIRM ROLES] ❌ Analysis not found or expired: ${analysis_id}`)
 
             return NextResponse.json(
                 {
                     status: 'error',
                     error: 'Analysis not found or expired',
-                    message: 'The analysis session has expired. Please upload your file again.'
+                    message: 'The analysis session has expired. Please upload your file again.',
+                    debugLogs: logs
                 },
                 { status: 404 }
             )
         }
 
-        console.log('[CONFIRM ROLES] ✅ Retrieved pending analysis')
+        log('[CONFIRM ROLES] ✅ Retrieved pending analysis')
 
         // Validate confirmed roles
         const allColumns = pendingAnalysis.dataset.headers
         const validation = validateRoleAssignment(confirmed_roles, allColumns)
 
         if (!validation.isValid) {
-            console.log('[CONFIRM ROLES] ❌ Validation failed:', validation.errors)
+            log(`[CONFIRM ROLES] ❌ Validation failed: ${JSON.stringify(validation.errors)}`)
 
             return NextResponse.json(
                 {
                     status: 'error',
                     errors: validation.errors,
-                    warnings: validation.warnings
+                    warnings: validation.warnings,
+                    debugLogs: logs
                 },
                 { status: 400 }
             )
         }
 
-        console.log('[CONFIRM ROLES] ✅ Roles validated successfully')
+        log('[CONFIRM ROLES] ✅ Roles validated successfully')
         if (validation.warnings.length > 0) {
-            console.log('[CONFIRM ROLES] ⚠️ Warnings:', validation.warnings)
+            log(`[CONFIRM ROLES] ⚠️ Warnings: ${JSON.stringify(validation.warnings)}`)
         }
 
         // Convert to Phase 1 format
         const phase1Roles = convertToPhase1Roles(confirmed_roles)
 
-        console.log('[CONFIRM ROLES] Calling Phase 1 bias detection...')
+        log('[CONFIRM ROLES] Calling Phase 1 bias detection...')
 
         // Call Phase 1 logic
         const biasResult = detectBiasPhase1(
@@ -94,10 +103,10 @@ export async function POST(request: NextRequest) {
             phase1Roles
         )
 
-        console.log('[CONFIRM ROLES] ✅ Phase 1 analysis complete')
+        log('[CONFIRM ROLES] ✅ Phase 1 analysis complete')
 
         // PHASE 3: Generate explanation
-        console.log('[CONFIRM ROLES] Generating explanation...')
+        log('[CONFIRM ROLES] Generating explanation...')
 
         let explanation
         try {
@@ -106,25 +115,34 @@ export async function POST(request: NextRequest) {
                 pendingAnalysis.dataset,
                 phase1Roles
             )
-            console.log('[CONFIRM ROLES] ✅ Explanation generated (source:', explanation.source + ')')
+            log(`[CONFIRM ROLES] ✅ Explanation generated (source: ${explanation.source})`)
         } catch (error: any) {
-            console.error('[CONFIRM ROLES] ⚠️ Explanation generation failed:', error.message)
+            log(`[CONFIRM ROLES] ⚠️ Explanation generation failed: ${error.message}`)
             // Continue without explanation (non-blocking)
             explanation = null
         }
 
         // PHASE 4: Save to Supabase (for authenticated users)
-        const user = await getCurrentUser()
+        let user = null
+        try {
+            log('[CONFIRM ROLES] Checking auth...')
+            user = await getCurrentUser()
+            log(`[CONFIRM ROLES] Auth result: ${user ? user.id : 'null'}`)
+        } catch (authErr: any) {
+            log(`[AUTH CHECK ERROR] ${authErr.message}`)
+        }
+
         let savedAnalysisId = analysis_id // Default to temp ID
+        let saveError = null
 
         if (user) {
-            console.log('[CONFIRM ROLES] Saving analysis to database for user:', user.id)
-            
+            log('[CONFIRM ROLES] Attempting to save analysis to Supabase...')
+
             const supabase = await createClient()
-            
+
             try {
                 // 1. Insert dataset
-                console.log('[CONFIRM ROLES] Step 1: Inserting dataset...')
+                log('[CONFIRM ROLES] Step 1: Inserting dataset...')
                 const { data: dataset, error: datasetError } = await supabase
                     .from('datasets')
                     .insert({
@@ -144,13 +162,16 @@ export async function POST(request: NextRequest) {
                     })
                     .select()
                     .single()
-                
-                if (datasetError) throw datasetError
-                
-                console.log('[CONFIRM ROLES] ✅ Dataset saved:', dataset.id)
-                
+
+                if (datasetError) {
+                    log(`[CONFIRM ROLES] ❌ Dataset insert failed: ${datasetError.message}`)
+                    throw datasetError
+                }
+
+                log(`[CONFIRM ROLES] ✅ Dataset saved: ${dataset.id}`)
+
                 // 2. Insert analysis
-                console.log('[CONFIRM ROLES] Step 2: Inserting analysis...')
+                log('[CONFIRM ROLES] Step 2: Inserting analysis...')
                 const { data: analysis, error: analysisError } = await supabase
                     .from('analyses')
                     .insert({
@@ -165,13 +186,16 @@ export async function POST(request: NextRequest) {
                     })
                     .select()
                     .single()
-                
-                if (analysisError) throw analysisError
-                
-                console.log('[CONFIRM ROLES] ✅ Analysis saved:', analysis.id)
-                
+
+                if (analysisError) {
+                    log(`[CONFIRM ROLES] ❌ Analysis insert failed: ${analysisError.message}`)
+                    throw analysisError
+                }
+
+                log(`[CONFIRM ROLES] ✅ Analysis saved: ${analysis.id}`)
+
                 // 3. Insert analysis details
-                console.log('[CONFIRM ROLES] Step 3: Inserting analysis details...')
+                log('[CONFIRM ROLES] Step 3: Inserting analysis details...')
                 const { error: detailsError } = await supabase
                     .from('analysis_details')
                     .insert({
@@ -184,7 +208,6 @@ export async function POST(request: NextRequest) {
                             biasedGroups: biasResult.metrics.biased_groups,
                             biasRatio: biasResult.metrics.bias_ratio,
                             averageMagnitude: biasResult.metrics.average_magnitude,
-                            groupingMetadata: biasResult.metrics.groupingMetadata,
                         },
                         bias_signals: {
                             overallRisk: biasResult.severity.toLowerCase(),
@@ -193,34 +216,48 @@ export async function POST(request: NextRequest) {
                         },
                         limitations: [],
                     })
-                
-                if (detailsError) throw detailsError
-                
-                console.log('[CONFIRM ROLES] ✅ Analysis details saved')
-                console.log('[CONFIRM ROLES] 🎉 Database persistence complete!')
-                
+
+                if (detailsError) {
+                    log(`[CONFIRM ROLES] ❌ Analysis details insert failed: ${detailsError.message}`)
+                    throw detailsError
+                }
+
+                log('[CONFIRM ROLES] ✅ Analysis details saved')
+                log('[CONFIRM ROLES] 🎉 Database persistence complete!')
+
                 // Use real database ID
                 savedAnalysisId = analysis.id
-                
+
             } catch (dbError: any) {
-                console.error('[CONFIRM ROLES] ⚠️ Database save failed:', dbError.message)
-                console.error('[CONFIRM ROLES] Error details:', dbError)
+                log(`[CONFIRM ROLES] ⚠️ Database save failed: ${dbError.message}`)
+                saveError = dbError.message
                 // Continue without saving (non-blocking)
             }
         } else {
-            console.log('[CONFIRM ROLES] Anonymous user - skipping database save')
+            log('[CONFIRM ROLES] ⚠️ User NOT authenticated - skipping database save')
+            // Log cookie status for debugging
+            try {
+                const cookieStore = await import('next/headers').then(mod => mod.cookies())
+                const allCookies = cookieStore.getAll().map(c => c.name)
+                log(`[CONFIRM ROLES] Available cookies: ${JSON.stringify(allCookies)}`)
+            } catch (e) { }
         }
 
-        // Delete pending analysis from cache
-        await deletePendingAnalysis(analysis_id)
-
-        console.log('[CONFIRM ROLES] ✅ Cleaned up pending analysis')
+        // Delete pending analysis from cache (ignore errors)
+        try {
+            await deletePendingAnalysis(analysis_id)
+            log('[CONFIRM ROLES] ✅ Cleaned up pending analysis')
+        } catch (e: any) {
+            log(`[CLEANUP WARNING] ${e.message}`)
+        }
 
         // Return full result in expected format (matching initial upload response)
         return NextResponse.json({
-            id: savedAnalysisId, // Use real DB ID if authenticated, temp ID if anonymous
+            id: savedAnalysisId, // Return real DB ID or temp ID
             status: 'completed',
             isAnonymous: !user,
+            debugLogs: logs,
+            saveError: saveError,
             dataset: {
                 fileName: pendingAnalysis.dataset.metadata?.source || 'unknown.csv',
                 fileType: 'csv',
@@ -228,22 +265,23 @@ export async function POST(request: NextRequest) {
                 rowCount: pendingAnalysis.dataset.rowCount || 0,
             },
             analysis: {
-                inferredDomain: 'general',
+                inferredDomain: 'general', // Placeholder
                 suggestedAttributes: biasResult.affected_sensitive_attributes || [],
                 biasSignals: {
                     overallRisk: biasResult.severity.toLowerCase() as 'low' | 'medium' | 'high',
                     detectedBiases: biasResult.affected_sensitive_attributes || [],
-                    uncertaintyLevel: 'low' as 'low' | 'medium' | 'high',
+                    uncertaintyLevel: 'low'
                 },
                 statisticalResults: {
                     severity: biasResult.severity,
+                    metrics: biasResult.metrics,
                     affectedAttributes: biasResult.affected_sensitive_attributes,
                     totalGroups: biasResult.metrics.total_groups,
                     biasedGroups: biasResult.metrics.biased_groups,
                     biasRatio: biasResult.metrics.bias_ratio,
-                    averageMagnitude: biasResult.metrics.average_magnitude,
+                    averageMagnitude: biasResult.metrics.average_magnitude
                 },
-                limitations: [],
+                limitations: [] // Placeholder
             },
             bias_result: biasResult,
             explanation,
@@ -252,14 +290,15 @@ export async function POST(request: NextRequest) {
         })
 
     } catch (error: any) {
-        console.error('[CONFIRM ROLES] Error:', error.message)
+        log(`[CONFIRM ROLES] CRITICAL ERROR: ${error.message}`)
         console.error(error.stack)
 
         return NextResponse.json(
             {
                 status: 'error',
                 error: 'Internal server error',
-                message: error.message
+                message: error.message,
+                debugLogs: logs
             },
             { status: 500 }
         )

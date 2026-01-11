@@ -60,6 +60,31 @@ export async function signOut() {
 }
 
 /**
+ * Sign in with Google OAuth
+ * Redirects to Google for authentication, then back to your app
+ */
+export async function signInWithGoogle() {
+    const supabase = createBrowserClient()
+
+    const { data, error } = await supabase.auth.signInWithOAuth({
+        provider: 'google',
+        options: {
+            redirectTo: `${window.location.origin}/auth/callback`,
+            queryParams: {
+                access_type: 'offline',
+                prompt: 'consent',
+            },
+        },
+    })
+
+    if (error) {
+        return { url: null, error: error.message }
+    }
+
+    return { url: data.url, error: null }
+}
+
+/**
  * Get the currently authenticated user (client-side)
  */
 export async function getCurrentUserClient(): Promise<User | null> {
@@ -86,3 +111,4 @@ export function onAuthStateChange(callback: (user: User | null) => void) {
 
     return () => subscription.unsubscribe()
 }
+

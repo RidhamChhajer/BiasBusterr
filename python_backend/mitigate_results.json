@@ -1,0 +1,12 @@
+{
+  "original_score": 20.0,
+  "mitigated_score": 83.33,
+  "improvement": 63.33,
+  "details": {
+    "original_disparate_impact": 0.2,
+    "mitigated_disparate_impact": 0.8333,
+    "original_demographic_parity": 0.8,
+    "mitigated_demographic_parity": 0.1667,
+    "samples_added": 11
+  }
+}

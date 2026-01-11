@@ -1,5 +1,6 @@
 import { createClient } from '@/lib/supabase/server'
 import { createClient as createBrowserClient } from '@/lib/supabase/client'
+import { headers } from 'next/headers'
 import type { User } from '@supabase/supabase-js'
 
 /**
@@ -28,11 +29,28 @@ import type { User } from '@supabase/supabase-js'
 export async function getCurrentUser(): Promise<User | null> {
     const supabase = await createClient()
 
+    // 1. Try standard cookie-based auth
     const {
         data: { user },
     } = await supabase.auth.getUser()
 
-    return user
+    if (user) return user
+
+    // 2. Fallback: Check for Authorization header (Bearer token)
+    try {
+        const headersList = await headers()
+        const authHeader = headersList.get('Authorization')
+
+        if (authHeader?.startsWith('Bearer ')) {
+            const token = authHeader.replace('Bearer ', '')
+            const { data: { user: headerUser } } = await supabase.auth.getUser(token)
+            return headerUser
+        }
+    } catch (error) {
+        // Ignore error (headers() might throw in some contexts)
+    }
+
+    return null
 }
 
 /**
